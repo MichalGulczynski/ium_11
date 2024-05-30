@@ -53,6 +53,13 @@ jobs:
           path: |
             spotify_songs.csv
             Spotify_Dataset.csv
+
+      - name: Upload model artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: model
+          path: |
+            model.pkl
           
   train-model:
     runs-on: ubuntu-latest
@@ -75,6 +82,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: datasets
+          path: .
+
+      - name: Download model artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: model
           path: .
           
       - name: Train model
