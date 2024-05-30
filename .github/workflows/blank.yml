@@ -32,7 +32,7 @@ jobs:
       - name: Set up Kaggle API credentials
         run: |
           mkdir -p ~/.kaggle
-          echo '{"username":"${{ secrets.KAGGLE_USERNAME }}","key":"${{ github.event.inputs.kaggle_key }}"}' > ~/.kaggle/kaggle.json
+          echo '{"username":"gulczas}","key":"${{ github.event.inputs.kaggle_key }}"}' > ~/.kaggle/kaggle.json
           chmod 600 ~/.kaggle/kaggle.json
 
       - name: Check if dataset exists
