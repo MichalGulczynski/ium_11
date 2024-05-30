@@ -49,6 +49,14 @@ jobs:
       - name: List files in the repository
         run: |
           ls -al
+
+      - name: Upload dataset artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: datasets
+          path: |
+            spotify_songs.csv
+            Spotify_Dataset.csv
           
   train-model:
     runs-on: ubuntu-latest
@@ -66,6 +74,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install pandas numpy scikit-learn
+      
+      - name: Download dataset artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: datasets
+          path: .
+          
       - name: List files in the repository
         run: |
           ls -al
