@@ -26,7 +26,7 @@ jobs:
       - name: Check if dataset exists
         id: check_dataset
         run: |
-          if [ -f data/spotify_dataset.csv ]; then
+          if [ -f data/spotify_songs.csv ]; then
             echo "Dataset already exists."
             echo "::set-output name=exists::true"
           else
@@ -58,6 +58,3 @@ jobs:
         run: |
           kaggle datasets download -d joebeachcapital/30000-spotify-songs
           unzip 30000-spotify-songs.zip -d data
-          mv data/30000-spotify-songs/spotify_dataset.csv data/spotify_dataset.csv
-
-  
