@@ -51,4 +51,3 @@ jobs:
         run: |
           kaggle datasets download -d joebeachcapital/30000-spotify-songs
           unzip 30000-spotify-songs.zip -d data
-          mv data/*.csv data/spotify_songs.csv
