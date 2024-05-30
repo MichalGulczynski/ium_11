@@ -1,0 +1,54 @@
+name: Model Training and Evaluation
+
+on:
+  workflow_dispatch:
+    inputs:
+      epochs:
+        description: 'Number of epochs'
+        required: true
+        default: '10'
+      learning_rate:
+        description: 'Learning rate'
+        required: true
+        default: '0.001'
+      kaggle_key:
+        description: 'Kaggle API key'
+        required: true
+        default: ''
+
+jobs:
+  checkout-and-download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Kaggle CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          pip3 install kaggle
+
+      - name: Set up Kaggle API credentials
+        run: |
+          mkdir -p ~/.kaggle
+          echo '{"username":"${{ secrets.KAGGLE_USERNAME }}","key":"${{ github.event.inputs.kaggle_key }}"}' > ~/.kaggle/kaggle.json
+          chmod 600 ~/.kaggle/kaggle.json
+
+      - name: Check if dataset exists
+        id: check_file
+        run: |
+          if [ -f data/spotify_songs.csv ]; then
+            echo "Dataset already exists" > result.log
+            echo "::set-output name=exists::true"
+          else
+            echo "Dataset does not exist" > result.log
+            echo "::set-output name=exists::false"
+          fi
+
+      - name: Download dataset from Kaggle
+        if: steps.check_file.outputs.exists == 'false'
+        run: |
+          kaggle datasets download -d joebeachcapital/30000-spotify-songs
+          unzip 30000-spotify-songs.zip -d data
+          mv data/*.csv data/spotify_songs.csv
