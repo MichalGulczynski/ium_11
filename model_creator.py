@@ -11,8 +11,8 @@ from sklearn. preprocessing import LabelEncoder
 import pickle
 
 def datasets_preparation():
-       df_1 = pd.read_csv("data/spotify_songs.csv")
-       df_2 = pd.read_csv("data/Spotify_Dataset.csv", sep=";")
+       df_1 = pd.read_csv("spotify_songs.csv")
+       df_2 = pd.read_csv("Spotify_Dataset.csv", sep=";")
 
        df_1 = df_1.dropna()
        df_2 = df_2.dropna()
@@ -42,8 +42,8 @@ def datasets_preparation():
 
        #df_1 = df_1.iloc[20:]
        
-       if "docker_test_dataset.csv" not in os.listdir("data"):
-              diff_df.to_csv("data/docker_test_dataset.csv", index=False)
+       if "docker_test_dataset.csv" not in os.listdir():
+              diff_df.to_csv("docker_test_dataset.csv", index=False)
 
        result_df = pd.merge(df_1, df_2, on='track_name', how='inner') 
        result_df = result_df.drop_duplicates(subset=['track_name'])
