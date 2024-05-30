@@ -42,10 +42,9 @@ jobs:
       - name: Download dataset from Kaggle
         run: |
           kaggle datasets download -d joebeachcapital/30000-spotify-songs
-          unzip 30000-spotify-songs.zip
-          mv 30000-spotify-songs/spotify_dataset.csv spotify_songs.csv
+          unzip 30000-spotify-songs.zip -d data
           kaggle datasets download -d gulczas/spotify-dataset
-          unzip spotify-dataset.zip
+          unzip spotify-dataset.zip -d data
 
   train-model:
     runs-on: ubuntu-latest
