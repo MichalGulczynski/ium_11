@@ -69,7 +69,6 @@ jobs:
       - name: List files in the repository
         run: |
           ls -al
-          ls data -al
       - name: Train model
         run: |
           python model_creator.py ${{ github.event.inputs.test_size }} ${{ github.event.inputs.max_iter }}
