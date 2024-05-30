@@ -23,38 +23,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Check if dataset exists
-        id: check_dataset
-        run: |
-          if [ -f data/spotify_songs.csv ]; then
-            echo "Dataset already exists."
-            echo "::set-output name=exists::true"
-          else
-            echo "Dataset does not exist."
-            echo "::set-output name=exists::false"
-          fi
-
       - name: Mask kaggle_key
-        if: steps.check_dataset.outputs.exists == 'false'
         run: |
           echo "::add-mask::${{ github.event.inputs.kaggle_key }}"
 
       - name: Install Kaggle CLI
-        if: steps.check_dataset.outputs.exists == 'false'
         run: |
           sudo apt-get update
           sudo apt-get install -y python3-pip
           pip3 install kaggle
 
       - name: Set up Kaggle API credentials
-        if: steps.check_dataset.outputs.exists == 'false'
         run: |
           mkdir -p ~/.kaggle
           echo '{"username":"${{ secrets.KAGGLE_USERNAME }}","key":"${{ github.event.inputs.kaggle_key }}"}' > ~/.kaggle/kaggle.json
           chmod 600 ~/.kaggle/kaggle.json
 
       - name: Download dataset from Kaggle
-        if: steps.check_dataset.outputs.exists == 'false'
         run: |
           kaggle datasets download -d joebeachcapital/30000-spotify-songs
           unzip 30000-spotify-songs.zip -d data
